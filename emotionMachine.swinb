@@ -1,0 +1,100 @@
+<div class="notebook hide-navbar open-fullscreen">
+
+<div class="nb-cell program" data-background="true" data-singleline="true" name="p7">
+:- use_rendering(c3).
+
+emotions(Pairs):-
+    event(goalIncongruence, GoalIncongruence),
+	event(selfResponsibility, SelfResponsibility),
+	event(uncertainty, Uncertainty),
+	event(attention, Attention),
+	event(anticipatedEffort, AnticipatedEffort),
+	event(situationalControl, SituationalControl),
+    Happiness is -1.46 * GoalIncongruence +	0.09 * SelfResponsibility -0.46 * Uncertainty +	0.15 * Attention -0.33 * AnticipatedEffort	-0.21 * SituationalControl,
+    Sadness is 0.87	* GoalIncongruence -0.36 * SelfResponsibility -	0 * Uncertainty	-0.21 * Attention -0.14 * AnticipatedEffort	+ 1.15 * SituationalControl,
+    Anger is 0.85 * GoalIncongruence -0.94 * SelfResponsibility	-0.29 * Uncertainty + 0.12 * Attention + 0.53 * AnticipatedEffort -0.96 * SituationalControl,
+    Fear is 0.44 * GoalIncongruence -0.17 * SelfResponsibility + 0.73 * Uncertainty +0.03 * Attention + 0.63 * AnticipatedEffort + 0.59 * SituationalControl,
+    Disgust is 0.38 * GoalIncongruence	-0.5 * SelfResponsibility -0.39 * Uncertainty -0.96 * Attention	+ 0.06 * AnticipatedEffort -0.19 * SituationalControl,
+    Surprise is -1.35 * GoalIncongruence -0.94 * SelfResponsibility	+ 0.73 * Uncertainty + 0.4 * Attention -0.66 * AnticipatedEffort + 0.15 * SituationalControl,
+    Shame is 0.73 * GoalIncongruence + 1.31 * SelfResponsibility + 0.21 * Uncertainty -0.11 * Attention	+ 0.07 * AnticipatedEffort -0.07 * SituationalControl,
+    Pairs =
+    [
+    	happiness-Happiness,
+      	sadness-Sadness,
+      	anger-Anger,
+      	fear-Fear,
+      	disgust-Disgust,
+      	surprise-Surprise,
+      	shame-Shame
+    ].
+</div>
+
+<div class="nb-cell html" name="htm1">
+<h2>Emotion Machine</h2>
+Skatta en händelse genom att byta ut nollorna med egna värden på alla appraisal-dimensioner nedan. Välj mellan sifforna -2, -1, 0, 1, 2.
+</div>
+
+<div class="nb-cell html" name="htm2">
+<h3>Goal Incongruence</h3>
+Om händelsen var inkongruent eller kongruent med personens mål (inkongruent = inte stämma överens med, kongruent = stämma överens med, +2 = maximalt inkongruent, -2 = maximalt kongruent, 0 = varken eller). Så bra händelser har ju oftast lågt på målinkongruens (dvs t ex -1, -2). Exempel på mål som är viktiga för människor är överlevnad, sociala relationer, kärlek, att vara kompetent och känna sig autonom.
+</div>
+
+<div class="nb-cell program" data-background="true" name="p1">
+event(goalIncongruence, 0).
+</div>
+
+<div class="nb-cell html" name="htm3">
+<h3>Self Responsibility and Control</h3>
+Om personen själv ansvarade för händelsen och kunde styra över den, kontra om andra människor var ansvariga för händelsen och kunde styra över den. Här bedömer ni alltså om personen själv var orsaken eller om andra människor var orsaken  (+2 = maximal egen kontroll och styrning, -2 = maximal kontroll och styrning av andra människor, 0 = varken eller)
+</div>
+
+<div class="nb-cell program" data-background="true" name="p2">
+event(selfResponsibility, 0).
+</div>
+
+<div class="nb-cell html" name="htm4">
+<h3>Uncertainty</h3>
+Hur osäker var personen på vad som skulle ske vid händelsen, att händelseförloppet var oförutsägbart, kontra hur säker personen var på vad som skulle ske vid händelsen, att händelseförloppet var förutsägbart (+2 = maximal oförutsägbarhet, -2 = maximal förutsägbarhet, 0 = varken eller)
+</div>
+
+<div class="nb-cell program" data-background="true" name="p3">
+event(uncertainty, 0).
+</div>
+
+<div class="nb-cell html" name="htm5">
+<h3>Attention</h3>
+Hur mycket personen uppmärksammade det som orsakade emotionen; dvs hur mycket mental kraft krävde det som orsakade emotionen (+2 = maximalt, -2 = minimalt, 0 = varken eller)
+</div>
+
+<div class="nb-cell program" data-background="true" name="p4">
+event(attention, 0).
+</div>
+
+<div class="nb-cell html" name="htm6">
+<h3>Anticipated Effort</h3>
+Hur mycket fysisk eller mental ansträngning personen antagligen tänkte skulle behövas när personen befann dig i situationen som orsakade emotionen (+2 = maximal ansträngning, -2 = minimal ansträngning, 0 = varken eller)
+</div>
+
+<div class="nb-cell program" data-background="true" name="p5">
+event(anticipatedEffort, 0).
+</div>
+
+<div class="nb-cell html" name="htm7">
+<h3>Situational Control</h3>
+Om yttre omständigheter bortom allas (inklusive personens egen) kontroll styrde över det som hände i situationen, dvs "ödet"  (här bedömer ni alltså händelsen på dimensionen situationsorsakat kontra orsakat av människor, inklusive personen själv, +2 = maximal yttre styrning, -2 = miminal yttre styrning, 0 = varken eller).
+</div>
+
+<div class="nb-cell program" data-background="true" name="p6">
+event(situationalControl, 0).
+</div>
+
+<div class="nb-cell html" name="htm8">
+<h2>Resultat</h2>
+Få resultatet genom att klicka på play-knappen längst till höger nedan.
+</div>
+
+<div class="nb-cell query" name="q1">
+emotions(_Pairs), Chart = c3{data:_{x:elem, rows:[elem-count|_Pairs], type:bar}, axis:_{x:_{type:category}}}.
+</div>
+
+</div>
