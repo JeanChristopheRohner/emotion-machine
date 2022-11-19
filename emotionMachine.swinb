@@ -4,21 +4,21 @@
 :- use_rendering(c3).
 
 emotions(Pairs):-
-    event(goalIncongruence, GoalIncongruence),
+    	event(goalIncongruence, GoalIncongruence),
 	event(selfResponsibility, SelfResponsibility),
 	event(uncertainty, Uncertainty),
 	event(attention, Attention),
 	event(anticipatedEffort, AnticipatedEffort),
 	event(situationalControl, SituationalControl),
-    Happiness is -1.46 * GoalIncongruence +	0.09 * SelfResponsibility -0.46 * Uncertainty +	0.15 * Attention -0.33 * AnticipatedEffort	-0.21 * SituationalControl,
-    Sadness is 0.87	* GoalIncongruence -0.36 * SelfResponsibility -	0 * Uncertainty	-0.21 * Attention -0.14 * AnticipatedEffort	+ 1.15 * SituationalControl,
-    Anger is 0.85 * GoalIncongruence -0.94 * SelfResponsibility	-0.29 * Uncertainty + 0.12 * Attention + 0.53 * AnticipatedEffort -0.96 * SituationalControl,
-    Fear is 0.44 * GoalIncongruence -0.17 * SelfResponsibility + 0.73 * Uncertainty +0.03 * Attention + 0.63 * AnticipatedEffort + 0.59 * SituationalControl,
-    Disgust is 0.38 * GoalIncongruence	-0.5 * SelfResponsibility -0.39 * Uncertainty -0.96 * Attention	+ 0.06 * AnticipatedEffort -0.19 * SituationalControl,
-    Surprise is -1.35 * GoalIncongruence -0.94 * SelfResponsibility	+ 0.73 * Uncertainty + 0.4 * Attention -0.66 * AnticipatedEffort + 0.15 * SituationalControl,
-    Shame is 0.73 * GoalIncongruence + 1.31 * SelfResponsibility + 0.21 * Uncertainty -0.11 * Attention	+ 0.07 * AnticipatedEffort -0.07 * SituationalControl,
-    Pairs =
-    [
+    	correlation([-1.46, 0.09, -0.46, 0.15, -0.33, -0.21, [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Happiness),
+    	correlation([0.87, -0.36, 0, -0.21, -0.14, 1.15], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Sadness),
+    	correlation([0.85, -0.94, -0.29, 0.12, 0.53, -0.96], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Anger),
+    	correlation([0.44, -0.17, 0.73, 0.03, 0.63, 0.59], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Fear),
+    	correlation([0.38, -0.5, -0.39, -0.96, 0.06, -0.19], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Disgust),
+    	correlation([-1.35, -0.94, 0.73, 0.4, -0.66, 0.15], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Surprise),
+    	correlation([0.73, 1.31, 0.21, -0.11, 0.07, -0.07], [GoalIncongruence, SelfResponsibility, Uncertainty, Attention, AnticipatedEffort, SituationalControl], Surprise),
+    	Pairs =
+    	[
     	happiness-Happiness,
       	sadness-Sadness,
       	anger-Anger,
@@ -26,7 +26,28 @@ emotions(Pairs):-
       	disgust-Disgust,
       	surprise-Surprise,
       	shame-Shame
-    ].
+    	].
+	
+product(X, Y, P):- P is X * Y.
+square(X, S):- S is X^2.
+subtract(Y, X, S):- S is X - Y.
+
+mean_list(XS, M):- sum_list(XS, S), length(XS, L), M is S / L.
+
+correlation(XS, YS, R):-
+    mean_list(XS, MeanXS),
+    mean_list(YS, MeanYS),
+    maplist(subtract(MeanXS), XS, DXS),
+    maplist(subtract(MeanYS), YS, DYS),
+    maplist(product, DXS, DYS, Products),
+    sum_list(Products, ProductsSum),
+   	maplist(square, DXS, DXSquares),
+    maplist(square, DYS, DYSquares),
+    sum_list(DXSquares, DXSquaresSum),
+    sum_list(DYSquares, DYSquaresSum),
+    R is ProductsSum / (sqrt(DXSquaresSum) * sqrt(DYSquaresSum)).
+
+
 </div>
 
 <div class="nb-cell html" name="htm1">
